@@ -1,3 +1,4 @@
+Lab 1 implementation
 # Cosmo Cats Intergalactic Marketplace
 
 ###  Мета роботи

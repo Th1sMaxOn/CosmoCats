@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/rates",
+    "queryParameters": {
+      "from": {"matches": ".*"},
+      "to": {"matches": ".*"}
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "bodyFileName": "price-response.json"
+  }
+}

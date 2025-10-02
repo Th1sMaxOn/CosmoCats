@@ -1,0 +1,150 @@
+openapi: 3.0.3
+info:
+  title: Cosmo Cats Intergalactic Marketplace API
+  version: 1.0.0
+  description: CRUD for Product entity with validation and RFC9457 errors
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/products:
+    get:
+      summary: List products
+      parameters:
+        - name: convertTo
+          in: query
+          required: false
+          schema:
+            type: string
+            example: USD
+          description: Convert price to another currency via 3rd-party mock
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductDTO'
+        "400": { $ref: '#/components/responses/Problem' }
+    post:
+      summary: Create product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProductDTO' }
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProductDTO' }
+        "400": { $ref: '#/components/responses/Problem' }
+
+  /api/products/{id}:
+    get:
+      summary: Get product by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Product
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProductDTO' }
+        "404": { $ref: '#/components/responses/Problem' }
+    put:
+      summary: Update product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProductDTO' }
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ProductDTO' }
+        "400": { $ref: '#/components/responses/Problem' }
+        "404": { $ref: '#/components/responses/Problem' }
+    delete:
+      summary: Delete product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "204":
+          description: No Content
+        "404": { $ref: '#/components/responses/Problem' }
+
+components:
+  schemas:
+    ProductDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          minLength: 3
+          maxLength: 100
+          description: Must include cosmic term like star/galaxy/comet/nebula
+          example: "Galaxy Yarn Ball"
+        description:
+          type: string
+          maxLength: 500
+        price:
+          type: number
+          format: double
+          minimum: 0.01
+          example: 42.00
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+          example: "CRD"
+        categoryId:
+          type: string
+          minLength: 1
+          maxLength: 50
+          example: "TOYS"
+      required: [name, price, currency, categoryId]
+
+    ProblemDetail:
+      type: object
+      description: RFC 9457 Problem Details
+      properties:
+        type: { type: string }
+        title: { type: string }
+        status: { type: integer, format: int32 }
+        detail: { type: string }
+        path: { type: string }
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field: { type: string }
+              message: { type: string }
+
+  responses:
+    Problem:
+      description: Problem Details
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'

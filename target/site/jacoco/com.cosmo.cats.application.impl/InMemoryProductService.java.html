@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="uk"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>InMemoryProductService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Cosmo Cats Intergalactic Marketplace</a> &gt; <a href="index.source.html" class="el_package">com.cosmo.cats.application.impl</a> &gt; <span class="el_source">InMemoryProductService.java</span></div><h1>InMemoryProductService.java</h1><pre class="source lang-java linenums">package com.cosmo.cats.application.impl;
+
+import com.cosmo.cats.application.ProductService;
+import com.cosmo.cats.domain.model.Product;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.math.BigDecimal;
+
+@Service
+public class InMemoryProductService implements ProductService {
+
+<span class="fc" id="L14">    private final Map&lt;UUID, Product&gt; store = new ConcurrentHashMap&lt;&gt;();</span>
+
+<span class="fc" id="L16">    public InMemoryProductService() {</span>
+<span class="fc" id="L17">        UUID id = UUID.randomUUID();</span>
+<span class="fc" id="L18">        store.put(id, new Product(</span>
+            id, &quot;Galaxy Yarn Ball&quot;, &quot;Anti-gravity yarn ball&quot;,
+            new BigDecimal(&quot;42.00&quot;), &quot;CRD&quot;, &quot;TOYS&quot;));
+<span class="fc" id="L21">    }</span>
+
+    @Override
+    public Product create(Product product) {
+<span class="fc" id="L25">        UUID id = Optional.ofNullable(product.getId()).orElse(UUID.randomUUID());</span>
+<span class="fc" id="L26">        product.setId(id);</span>
+<span class="fc" id="L27">        store.put(id, product);</span>
+<span class="fc" id="L28">        return product;</span>
+    }
+
+    @Override
+    public List&lt;Product&gt; findAll() {
+<span class="fc" id="L33">        return new ArrayList&lt;&gt;(store.values());</span>
+    }
+
+    @Override
+    public Optional&lt;Product&gt; findById(UUID id) {
+<span class="fc" id="L38">        return Optional.ofNullable(store.get(id));</span>
+    }
+
+    @Override
+    public Product update(UUID id, Product product) {
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (!store.containsKey(id)) {</span>
+<span class="fc" id="L44">            throw new NoSuchElementException(&quot;Product not found: &quot; + id);</span>
+        }
+<span class="fc" id="L46">        product.setId(id);</span>
+<span class="fc" id="L47">        store.put(id, product);</span>
+<span class="fc" id="L48">        return product;</span>
+    }
+
+    @Override
+    public void delete(UUID id) {
+<span class="fc" id="L53">        store.remove(id);</span>
+<span class="fc" id="L54">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

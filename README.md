@@ -37,5 +37,5 @@ Cosmo Cats — це навчальний веб-проєкт, реалізова
 Повний HTML-звіт доступний у GitHub Actions → Artifacts → `jacoco-report`.
 
 Приклад (звіт згенерований автоматично):
-![Coverage Report](Screenshot 2025-11-11 172926.png)
+![Coverage Report](CosmoCats/coverage.png)
 

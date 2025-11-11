@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+feature:
+  cosmoCats:
+    enabled: false
+  kittyProducts:
+    enabled: false

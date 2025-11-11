@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.cosmocats.service.CosmoCatFeatureEnabledTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-11T16:40:31.141Z" hostname="MAX0NEE" time="0.005">
+  <properties/>
+  <testcase name="getCosmoCats_whenFeatureEnabled_returnsList()" classname="org.example.cosmocats.service.CosmoCatFeatureEnabledTest" time="0.005"/>
+  <system-out><![CDATA[2025-11-11T18:40:30.862+02:00  INFO 4700 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [org.example.cosmocats.service.CosmoCatFeatureEnabledTest]: CosmoCatFeatureEnabledTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-11-11T18:40:30.863+02:00  INFO 4700 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration org.example.cosmocats.CosmoCatsFeatureToggleApplication for test class org.example.cosmocats.service.CosmoCatFeatureEnabledTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2025-11-11T18:40:30.885+02:00  INFO 4700 --- [    Test worker] o.e.c.s.CosmoCatFeatureEnabledTest       : Starting CosmoCatFeatureEnabledTest using Java 21.0.9 with PID 4700 (started by maksd in D:\cosmo-cats-lab2-copy)
+2025-11-11T18:40:30.886+02:00  INFO 4700 --- [    Test worker] o.e.c.s.CosmoCatFeatureEnabledTest       : No active profile set, falling back to 1 default profile: "default"
+2025-11-11T18:40:31.139+02:00  INFO 4700 --- [    Test worker] o.e.c.s.CosmoCatFeatureEnabledTest       : Started CosmoCatFeatureEnabledTest in 0.272 seconds (process running for 3.116)
+[Demo] Calling CosmoCatService.getCosmoCats() ...
+[Demo] CosmoCats: [Nebula Kitty, Stellar Paws, Luna Meow]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

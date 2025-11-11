@@ -22,12 +22,12 @@ Cosmo Cats — це навчальний веб-проєкт, реалізова
 
 | Завдання | Статус |
 |----------|--------|
-| Написано unit-тести для controller + mapper + service
-| Покриття коду за допомогою **JaCoCo**
-| Покриття коду ≥ 50% (факт: **57%**)
-| Інтегровано GitHub Actions CI (mvn clean test)
-| Додано upload артефакту звіту Jacoco
-| Створено Pull Request `lab1.2 → main`
+| Написано unit-тести для controller + mapper + service |Виконано|
+| Покриття коду за допомогою **JaCoCo** |Виконано|
+| Покриття коду ≥ 50% (факт: **57%**) |Виконано|
+| Інтегровано GitHub Actions CI (mvn clean test) |Виконано|
+| Додано upload артефакту звіту Jacoco |Виконано|
+| Створено Pull Request `lab1.2 → main` |Виконано|
 
 ---
 
@@ -37,4 +37,5 @@ Cosmo Cats — це навчальний веб-проєкт, реалізова
 Повний HTML-звіт доступний у GitHub Actions → Artifacts → `jacoco-report`.
 
 Приклад (звіт згенерований автоматично):
+
 

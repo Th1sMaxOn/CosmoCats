@@ -1,0 +1,3 @@
+com\cosmo\cats\mapper\ProductMapperTest.class
+com\cosmo\cats\api\ProductControllerTest.class
+com\cosmo\cats\application\impl\InMemoryProductServiceTest.class

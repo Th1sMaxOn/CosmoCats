@@ -1,0 +1,16 @@
+D:\cosmo-cats\src\main\java\com\cosmo\cats\api\error\ValidationErrorDetails.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\api\ProductController.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\domain\model\Product.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\mapper\ProductMapper.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\domain\model\Category.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\dto\ProductDTO.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\api\error\GlobalExceptionHandler.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\CosmoCatsApplication.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\application\impl\InMemoryProductService.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\domain\model\Cart.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\validation\CosmicWordCheckValidator.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\validation\CosmicWordCheck.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\integration\PriceRateClient.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\application\ProductService.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\integration\PriceRateDTO.java
+D:\cosmo-cats\src\main\java\com\cosmo\cats\domain\model\Order.java

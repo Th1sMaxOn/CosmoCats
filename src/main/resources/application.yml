@@ -1,0 +1,24 @@
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cosmocats
+    username: cosmocats
+    password: cosmocats
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+server:
+  port: 8080
+
+feature:
+  cosmoCats:
+    enabled: false
+  kittyProducts:
+    enabled: false

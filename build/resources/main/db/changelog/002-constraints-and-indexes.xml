@@ -1,0 +1,32 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+           http://www.liquibase.org/xml/ns/dbchangelog
+           https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="007-unique-customer-email" author="pashko">
+        <addUniqueConstraint tableName="customers"
+                             columnNames="email"
+                             constraintName="uk_customers_email"/>
+    </changeSet>
+
+    <changeSet id="008-unique-product-name-per-category" author="pashko">
+        <addUniqueConstraint tableName="products"
+                             columnNames="category_id, product_name"
+                             constraintName="uk_products_category_name"/>
+    </changeSet>
+
+    <changeSet id="009-index-product-name" author="pashko">
+        <createIndex tableName="products" indexName="idx_products_product_name">
+            <column name="product_name"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="010-index-order-number" author="pashko">
+        <createIndex tableName="orders" indexName="idx_orders_order_number">
+            <column name="order_number"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

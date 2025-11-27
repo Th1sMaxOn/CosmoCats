@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="uk"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">cosmo-cats-feature-toggle</a> &gt; <a href="index.source.html" class="el_package">org.example.cosmocats.service</a> &gt; <span class="el_source">ProductService.java</span></div><h1>ProductService.java</h1><pre class="source lang-java linenums">package org.example.cosmocats.service;
+
+import org.example.cosmocats.domain.Category;
+import org.example.cosmocats.domain.Product;
+import org.example.cosmocats.repository.CategoryRepository;
+import org.example.cosmocats.repository.ProductRepository;
+import org.example.cosmocats.web.projection.PopularProductProjection;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional
+public class ProductService {
+
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+
+    public ProductService(ProductRepository productRepository,
+<span class="fc" id="L22">                          CategoryRepository categoryRepository) {</span>
+<span class="fc" id="L23">        this.productRepository = productRepository;</span>
+<span class="fc" id="L24">        this.categoryRepository = categoryRepository;</span>
+<span class="fc" id="L25">    }</span>
+
+    public Product create(Product p, Long categoryId) {
+<span class="fc" id="L28">        Category category = categoryRepository.findById(categoryId)</span>
+<span class="pc" id="L29">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Category not found: &quot; + categoryId));</span>
+<span class="fc" id="L30">        p.setCategory(category);</span>
+<span class="fc" id="L31">        return productRepository.save(p);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;Product&gt; findByCategory(Long categoryId) {
+<span class="nc" id="L36">        return productRepository.findByCategoryId(categoryId);</span>
+    }
+
+    @Transactional(readOnly = true)
+    public List&lt;PopularProductProjection&gt; mostPopular(int limit) {
+<span class="nc" id="L41">        return productRepository.findMostPopularProducts(PageRequest.of(0, limit));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

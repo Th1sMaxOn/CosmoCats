@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.cosmocats.service.CosmoCatFeatureDisabledTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-27T15:26:52.884Z" hostname="MAX0NEE" time="0.006">
+  <properties/>
+  <testcase name="getCosmoCats_whenFeatureDisabled_throws()" classname="org.example.cosmocats.service.CosmoCatFeatureDisabledTest" time="0.006"/>
+  <system-out><![CDATA[2025-11-27T17:26:52.176+02:00  INFO 432 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [org.example.cosmocats.service.CosmoCatFeatureDisabledTest]: CosmoCatFeatureDisabledTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-11-27T17:26:52.187+02:00  INFO 432 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration org.example.cosmocats.CosmoCatsFeatureToggleApplication for test class org.example.cosmocats.service.CosmoCatFeatureDisabledTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2025-11-27T17:26:52.211+02:00  INFO 432 --- [    Test worker] o.e.c.s.CosmoCatFeatureDisabledTest      : Starting CosmoCatFeatureDisabledTest using Java 21.0.9 with PID 432 (started by maksd in D:\CosmoCats-lab3)
+2025-11-27T17:26:52.211+02:00  INFO 432 --- [    Test worker] o.e.c.s.CosmoCatFeatureDisabledTest      : No active profile set, falling back to 1 default profile: "default"
+2025-11-27T17:26:52.319+02:00  INFO 432 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-27T17:26:52.332+02:00  INFO 432 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 5 JPA repository interfaces.
+2025-11-27T17:26:52.421+02:00  INFO 432 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-27T17:26:52.424+02:00  INFO 432 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-27T17:26:52.427+02:00  INFO 432 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-27T17:26:52.427+02:00  INFO 432 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-11-27T17:26:52.445+02:00  INFO 432 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@2aadeca3
+2025-11-27T17:26:52.445+02:00  INFO 432 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-11-27T17:26:52.552+02:00  INFO 432 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-27T17:26:52.569+02:00  INFO 432 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-27T17:26:52.738+02:00  WARN 432 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-27T17:26:52.883+02:00  INFO 432 --- [    Test worker] o.e.c.s.CosmoCatFeatureDisabledTest      : Started CosmoCatFeatureDisabledTest in 0.69 seconds (process running for 12.815)
+[Demo] Calling CosmoCatService.getCosmoCats() ...
+]]></system-out>
+  <system-err><![CDATA[[Demo] Exception calling getCosmoCats(): org.example.cosmocats.feature.FeatureNotAvailableException - Feature 'cosmoCats' is not available
+]]></system-err>
+</testsuite>

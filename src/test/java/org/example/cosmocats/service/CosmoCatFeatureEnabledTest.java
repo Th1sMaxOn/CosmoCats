@@ -10,15 +10,22 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestPropertySource(properties = "feature.cosmoCats.enabled=true")
+@TestPropertySource(properties = {
+        // фіча увімкнена
+        "feature.cosmoCats.enabled=true",
+        // відключаємо Liquibase, щоб тести не лізли в Postgres
+        "spring.liquibase.enabled=false"
+})
 class CosmoCatFeatureEnabledTest {
 
     @Autowired
-    CosmoCatService service;
+    private CosmoCatService cosmoCatService;
 
     @Test
     void getCosmoCats_whenFeatureEnabled_returnsList() {
-        List<String> cats = service.getCosmoCats();
+        // викликаємо сервіс
+        List<String> cats = cosmoCatService.getCosmoCats();
+
         assertNotNull(cats);
         assertFalse(cats.isEmpty());
     }

@@ -18,11 +18,11 @@ public class TestRunnerConfig {
 <span class="fc" id="L18">        return args -&gt; {</span>
 <span class="fc" id="L19">            System.out.println(&quot;[Demo] Calling CosmoCatService.getCosmoCats() ...&quot;);</span>
             try {
-<span class="nc" id="L21">                var cats = cosmoCatService.getCosmoCats();</span>
-<span class="nc" id="L22">                System.out.println(&quot;[Demo] CosmoCats: &quot; + cats);</span>
+<span class="fc" id="L21">                var cats = cosmoCatService.getCosmoCats();</span>
+<span class="fc" id="L22">                System.out.println(&quot;[Demo] CosmoCats: &quot; + cats);</span>
 <span class="fc" id="L23">            } catch (Exception ex) {</span>
 <span class="fc" id="L24">                System.err.println(&quot;[Demo] Exception calling getCosmoCats(): &quot; + ex.getClass().getName() + &quot; - &quot; + ex.getMessage());</span>
-<span class="nc" id="L25">            }</span>
+<span class="fc" id="L25">            }</span>
 <span class="fc" id="L26">        };</span>
     }
 }

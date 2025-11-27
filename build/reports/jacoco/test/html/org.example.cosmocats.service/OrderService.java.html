@@ -33,11 +33,11 @@ public class OrderService {
     public Order createOrder(CreateOrderRequest request) {
 <span class="fc" id="L34">        Customer customer = customerRepository</span>
 <span class="fc" id="L35">                .findByEmail(request.customerEmail())</span>
-<span class="pc" id="L36">                .orElseGet(() -&gt; customerRepository.save(</span>
-<span class="nc" id="L37">                        Customer.builder()</span>
-<span class="nc" id="L38">                                .email(request.customerEmail())</span>
-<span class="nc" id="L39">                                .fullName(request.customerFullName())</span>
-<span class="nc" id="L40">                                .build()</span>
+<span class="fc" id="L36">                .orElseGet(() -&gt; customerRepository.save(</span>
+<span class="fc" id="L37">                        Customer.builder()</span>
+<span class="fc" id="L38">                                .email(request.customerEmail())</span>
+<span class="fc" id="L39">                                .fullName(request.customerFullName())</span>
+<span class="fc" id="L40">                                .build()</span>
                 ));
 
 <span class="fc" id="L43">        Order order = new Order();</span>

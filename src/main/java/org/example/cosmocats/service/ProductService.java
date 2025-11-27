@@ -2,6 +2,7 @@ package org.example.cosmocats.service;
 
 import org.example.cosmocats.domain.Category;
 import org.example.cosmocats.domain.Product;
+import org.example.cosmocats.feature.ToggleFeature;   // ДОДАЙ цей import
 import org.example.cosmocats.repository.CategoryRepository;
 import org.example.cosmocats.repository.ProductRepository;
 import org.example.cosmocats.web.projection.PopularProductProjection;
@@ -39,5 +40,12 @@ public class ProductService {
     @Transactional(readOnly = true)
     public List<PopularProductProjection> mostPopular(int limit) {
         return productRepository.findMostPopularProducts(PageRequest.of(0, limit));
+    }
+
+    // 🔥 Новий метод для feature-toggle тестів
+    @Transactional(readOnly = true)
+    @ToggleFeature("cosmoCats")          // ключ можеш змінити, якщо в анотації/сервісі інший
+    public List<Product> getAll() {
+        return productRepository.findAll();
     }
 }

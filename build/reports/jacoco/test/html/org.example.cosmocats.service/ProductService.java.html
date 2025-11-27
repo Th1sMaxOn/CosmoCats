@@ -2,6 +2,7 @@
 
 import org.example.cosmocats.domain.Category;
 import org.example.cosmocats.domain.Product;
+import org.example.cosmocats.feature.ToggleFeature;   // ДОДАЙ цей import
 import org.example.cosmocats.repository.CategoryRepository;
 import org.example.cosmocats.repository.ProductRepository;
 import org.example.cosmocats.web.projection.PopularProductProjection;
@@ -19,26 +20,33 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
 
     public ProductService(ProductRepository productRepository,
-<span class="fc" id="L22">                          CategoryRepository categoryRepository) {</span>
-<span class="fc" id="L23">        this.productRepository = productRepository;</span>
-<span class="fc" id="L24">        this.categoryRepository = categoryRepository;</span>
-<span class="fc" id="L25">    }</span>
+<span class="fc" id="L23">                          CategoryRepository categoryRepository) {</span>
+<span class="fc" id="L24">        this.productRepository = productRepository;</span>
+<span class="fc" id="L25">        this.categoryRepository = categoryRepository;</span>
+<span class="fc" id="L26">    }</span>
 
     public Product create(Product p, Long categoryId) {
-<span class="fc" id="L28">        Category category = categoryRepository.findById(categoryId)</span>
-<span class="pc" id="L29">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Category not found: &quot; + categoryId));</span>
-<span class="fc" id="L30">        p.setCategory(category);</span>
-<span class="fc" id="L31">        return productRepository.save(p);</span>
+<span class="fc" id="L29">        Category category = categoryRepository.findById(categoryId)</span>
+<span class="pc" id="L30">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Category not found: &quot; + categoryId));</span>
+<span class="fc" id="L31">        p.setCategory(category);</span>
+<span class="fc" id="L32">        return productRepository.save(p);</span>
     }
 
     @Transactional(readOnly = true)
     public List&lt;Product&gt; findByCategory(Long categoryId) {
-<span class="nc" id="L36">        return productRepository.findByCategoryId(categoryId);</span>
+<span class="nc" id="L37">        return productRepository.findByCategoryId(categoryId);</span>
     }
 
     @Transactional(readOnly = true)
     public List&lt;PopularProductProjection&gt; mostPopular(int limit) {
-<span class="nc" id="L41">        return productRepository.findMostPopularProducts(PageRequest.of(0, limit));</span>
+<span class="nc" id="L42">        return productRepository.findMostPopularProducts(PageRequest.of(0, limit));</span>
+    }
+
+    // 🔥 Новий метод для feature-toggle тестів
+    @Transactional(readOnly = true)
+    @ToggleFeature(&quot;cosmoCats&quot;)          // ключ можеш змінити, якщо в анотації/сервісі інший
+    public List&lt;Product&gt; getAll() {
+<span class="nc" id="L49">        return productRepository.findAll();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.13.202504020838</span></div></body></html>

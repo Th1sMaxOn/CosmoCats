@@ -1,19 +1,31 @@
 package org.example.cosmocats.feature;
 
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FeatureToggleService {
 
-    private final Environment env;
+    // глобальний прапорець для нашої фічі "cosmo-cats"
+    @Value("${feature.cosmo-cats.enabled:true}")
+    private boolean cosmoCatsEnabled;
 
-    public FeatureToggleService(Environment env) {
-        this.env = env;
+    /**
+     * Перевіряємо, чи увімкнена фіча за ключем.
+     * Зараз підтримуємо тільки "cosmo-cats".
+     */
+    public boolean isFeatureEnabled(String key) {
+        if ("cosmo-cats".equals(key)) {
+            return cosmoCatsEnabled;
+        }
+        // інші фічі вважаємо вимкненими (або тут можна повернути true — як захоче викладач)
+        return false;
     }
 
-    public boolean isFeatureEnabled(String featureKey) {
-        String prop = "feature." + featureKey + ".enabled";
-        return env.getProperty(prop, Boolean.class, Boolean.FALSE);
+    /**
+     * Метод для тестів — дає можливість вимикати/вмикати фічу з юніт-тестів.
+     */
+    public void setFeatureEnabled(boolean enabled) {
+        this.cosmoCatsEnabled = enabled;
     }
 }

@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="org.example.cosmocats.RepositoryIntegrationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-27T15:26:51.048Z" hostname="MAX0NEE" time="0.769">
+<testsuite name="org.example.cosmocats.RepositoryIntegrationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-27T15:46:08.948Z" hostname="MAX0NEE" time="0.605">
   <properties/>
-  <testcase name="fullCrudFlow_createsOrderWithLines()" classname="org.example.cosmocats.RepositoryIntegrationTest" time="0.769"/>
-  <system-out><![CDATA[17:26:41.287 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [org.example.cosmocats.RepositoryIntegrationTest]: RepositoryIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-17:26:41.446 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration org.example.cosmocats.CosmoCatsFeatureToggleApplication for test class org.example.cosmocats.RepositoryIntegrationTest
-17:26:41.679 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
-17:26:41.684 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
-17:26:42.002 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
-17:26:42.312 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
-17:26:42.314 [Test worker] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
-17:26:42.333 [Test worker] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  <testcase name="fullCrudFlow_createsOrderWithLines()" classname="org.example.cosmocats.RepositoryIntegrationTest" time="0.605"/>
+  <system-out><![CDATA[17:45:58.344 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [org.example.cosmocats.RepositoryIntegrationTest]: RepositoryIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:45:58.585 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration org.example.cosmocats.CosmoCatsFeatureToggleApplication for test class org.example.cosmocats.RepositoryIntegrationTest
+17:45:58.872 [Test worker] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+17:45:58.878 [Test worker] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+17:45:59.235 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+17:45:59.594 [Test worker] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+17:45:59.596 [Test worker] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+17:45:59.618 [Test worker] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
   Server Version: 28.4.0
   API Version: 1.51
   Operating System: Docker Desktop
   Total Memory: 15898 MB
-17:26:42.415 [Test worker] INFO tc.testcontainers/ryuk:0.5.1 -- Creating container for image: testcontainers/ryuk:0.5.1
-17:26:42.526 [Test worker] INFO org.testcontainers.utility.RegistryAuthLocator -- Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
-17:26:42.652 [Test worker] INFO tc.testcontainers/ryuk:0.5.1 -- Container testcontainers/ryuk:0.5.1 is starting: 6f0582ce903eafac5732f163c261b52bdad07cc0ab0b03f0022734c5441672ba
-17:26:42.965 [Test worker] INFO tc.testcontainers/ryuk:0.5.1 -- Container testcontainers/ryuk:0.5.1 started in PT0.5496997S
-17:26:42.971 [Test worker] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
-17:26:42.971 [Test worker] INFO org.testcontainers.DockerClientFactory -- Checking the system...
-17:26:42.972 [Test worker] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
-17:26:42.972 [Test worker] INFO tc.postgres:16-alpine -- Creating container for image: postgres:16-alpine
-17:26:43.043 [Test worker] INFO tc.postgres:16-alpine -- Container postgres:16-alpine is starting: 4df1ef937aa0401ce043f051f1f6e304ef5d3d8b8c2f75654dd6c61ccd9a93e8
-17:26:44.298 [Test worker] INFO tc.postgres:16-alpine -- Container postgres:16-alpine started in PT1.3258863S
-17:26:44.300 [Test worker] INFO tc.postgres:16-alpine -- Container is started (JDBC URL: jdbc:postgresql://localhost:64181/cosmocats?loggerLevel=OFF)
+17:45:59.704 [Test worker] INFO tc.testcontainers/ryuk:0.5.1 -- Creating container for image: testcontainers/ryuk:0.5.1
+17:46:00.073 [Test worker] INFO org.testcontainers.utility.RegistryAuthLocator -- Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
+17:46:00.217 [Test worker] INFO tc.testcontainers/ryuk:0.5.1 -- Container testcontainers/ryuk:0.5.1 is starting: 31876543251fc4669c595c24ef506b82cb5c4d8aa5a796c5022d25ef7fe240b3
+17:46:00.562 [Test worker] INFO tc.testcontainers/ryuk:0.5.1 -- Container testcontainers/ryuk:0.5.1 started in PT0.8580068S
+17:46:00.568 [Test worker] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+17:46:00.568 [Test worker] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+17:46:00.569 [Test worker] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+17:46:00.569 [Test worker] INFO tc.postgres:16-alpine -- Creating container for image: postgres:16-alpine
+17:46:00.645 [Test worker] INFO tc.postgres:16-alpine -- Container postgres:16-alpine is starting: 3795a2971e6aad19c1414f0017eb7ee8bf9f754c27a6bfe8204fa084c13dfbae
+17:46:02.156 [Test worker] INFO tc.postgres:16-alpine -- Container postgres:16-alpine started in PT1.587285S
+17:46:02.158 [Test worker] INFO tc.postgres:16-alpine -- Container is started (JDBC URL: jdbc:postgresql://localhost:50997/cosmocats?loggerLevel=OFF)
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -34,73 +34,73 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.0)
 
-2025-11-27T17:26:44.607+02:00  INFO 432 --- [    Test worker] o.e.cosmocats.RepositoryIntegrationTest  : Starting RepositoryIntegrationTest using Java 21.0.9 with PID 432 (started by maksd in D:\CosmoCats-lab3)
-2025-11-27T17:26:44.608+02:00  INFO 432 --- [    Test worker] o.e.cosmocats.RepositoryIntegrationTest  : No active profile set, falling back to 1 default profile: "default"
-2025-11-27T17:26:45.186+02:00  INFO 432 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-27T17:26:45.285+02:00  INFO 432 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 85 ms. Found 5 JPA repository interfaces.
-2025-11-27T17:26:46.071+02:00  INFO 432 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-27T17:26:46.247+02:00  INFO 432 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3c36f10b
-2025-11-27T17:26:46.248+02:00  INFO 432 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-11-27T17:26:46.400+02:00  INFO 432 --- [    Test worker] liquibase.database                       : Set default schema name to public
-2025-11-27T17:26:46.893+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Creating database history table with name: public.databasechangelog
-2025-11-27T17:26:46.942+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Reading from public.databasechangelog
-2025-11-27T17:26:47.070+02:00  INFO 432 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
-2025-11-27T17:26:47.073+02:00  INFO 432 --- [    Test worker] liquibase.command                        : Using deploymentId: 4257207072
-2025-11-27T17:26:47.077+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Reading from public.databasechangelog
+2025-11-27T17:46:02.485+02:00  INFO 21388 --- [    Test worker] o.e.cosmocats.RepositoryIntegrationTest  : Starting RepositoryIntegrationTest using Java 21.0.9 with PID 21388 (started by maksd in D:\CosmoCats-lab3)
+2025-11-27T17:46:02.487+02:00  INFO 21388 --- [    Test worker] o.e.cosmocats.RepositoryIntegrationTest  : No active profile set, falling back to 1 default profile: "default"
+2025-11-27T17:46:03.099+02:00  INFO 21388 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-27T17:46:03.160+02:00  INFO 21388 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 53 ms. Found 5 JPA repository interfaces.
+2025-11-27T17:46:03.803+02:00  INFO 21388 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-27T17:46:03.961+02:00  INFO 21388 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@66538929
+2025-11-27T17:46:03.964+02:00  INFO 21388 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-11-27T17:46:04.118+02:00  INFO 21388 --- [    Test worker] liquibase.database                       : Set default schema name to public
+2025-11-27T17:46:04.721+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Creating database history table with name: public.databasechangelog
+2025-11-27T17:46:04.772+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Reading from public.databasechangelog
+2025-11-27T17:46:04.908+02:00  INFO 21388 --- [    Test worker] liquibase.lockservice                    : Successfully acquired change log lock
+2025-11-27T17:46:04.911+02:00  INFO 21388 --- [    Test worker] liquibase.command                        : Using deploymentId: 4258364910
+2025-11-27T17:46:04.914+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Reading from public.databasechangelog
 Running Changeset: db/changelog/001-init-schema.xml::001-create-sequences::pashko
-2025-11-27T17:26:47.125+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Sequence category_seq created
-2025-11-27T17:26:47.129+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Sequence product_seq created
-2025-11-27T17:26:47.130+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Sequence customer_seq created
-2025-11-27T17:26:47.133+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Sequence orders_seq created
-2025-11-27T17:26:47.134+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Sequence order_line_seq created
-2025-11-27T17:26:47.135+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::001-create-sequences::pashko ran successfully in 18ms
+2025-11-27T17:46:04.976+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Sequence category_seq created
+2025-11-27T17:46:04.979+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Sequence product_seq created
+2025-11-27T17:46:04.981+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Sequence customer_seq created
+2025-11-27T17:46:04.984+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Sequence orders_seq created
+2025-11-27T17:46:04.987+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Sequence order_line_seq created
+2025-11-27T17:46:04.989+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::001-create-sequences::pashko ran successfully in 23ms
 Running Changeset: db/changelog/001-init-schema.xml::002-create-category-table::pashko
-2025-11-27T17:26:47.149+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Table categories created
-2025-11-27T17:26:47.151+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::002-create-category-table::pashko ran successfully in 7ms
+2025-11-27T17:46:05.007+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Table categories created
+2025-11-27T17:46:05.009+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::002-create-category-table::pashko ran successfully in 8ms
 Running Changeset: db/changelog/001-init-schema.xml::003-create-product-table::pashko
-2025-11-27T17:26:47.163+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Table products created
-2025-11-27T17:26:47.165+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::003-create-product-table::pashko ran successfully in 9ms
+2025-11-27T17:46:05.021+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Table products created
+2025-11-27T17:46:05.022+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::003-create-product-table::pashko ran successfully in 9ms
 Running Changeset: db/changelog/001-init-schema.xml::004-create-customer-table::pashko
-2025-11-27T17:26:47.175+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Table customers created
-2025-11-27T17:26:47.176+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::004-create-customer-table::pashko ran successfully in 6ms
+2025-11-27T17:46:05.034+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Table customers created
+2025-11-27T17:46:05.035+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::004-create-customer-table::pashko ran successfully in 8ms
 Running Changeset: db/changelog/001-init-schema.xml::005-create-orders-table::pashko
-2025-11-27T17:26:47.185+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Table orders created
-2025-11-27T17:26:47.186+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::005-create-orders-table::pashko ran successfully in 6ms
+2025-11-27T17:46:05.048+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Table orders created
+2025-11-27T17:46:05.049+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::005-create-orders-table::pashko ran successfully in 7ms
 Running Changeset: db/changelog/001-init-schema.xml::006-create-order-lines-table::pashko
-2025-11-27T17:26:47.196+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Table order_lines created
-2025-11-27T17:26:47.197+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::006-create-order-lines-table::pashko ran successfully in 7ms
+2025-11-27T17:46:05.062+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Table order_lines created
+2025-11-27T17:46:05.064+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/001-init-schema.xml::006-create-order-lines-table::pashko ran successfully in 8ms
 Running Changeset: db/changelog/002-constraints-and-indexes.xml::007-unique-customer-email::pashko
-2025-11-27T17:26:47.207+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Unique constraint added to customers(email)
-2025-11-27T17:26:47.208+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-constraints-and-indexes.xml::007-unique-customer-email::pashko ran successfully in 7ms
+2025-11-27T17:46:05.076+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Unique constraint added to customers(email)
+2025-11-27T17:46:05.079+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-constraints-and-indexes.xml::007-unique-customer-email::pashko ran successfully in 7ms
 Running Changeset: db/changelog/002-constraints-and-indexes.xml::008-unique-product-name-per-category::pashko
-2025-11-27T17:26:47.216+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Unique constraint added to products(category_id, product_name)
-2025-11-27T17:26:47.218+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-constraints-and-indexes.xml::008-unique-product-name-per-category::pashko ran successfully in 5ms
+2025-11-27T17:46:05.088+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Unique constraint added to products(category_id, product_name)
+2025-11-27T17:46:05.089+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-constraints-and-indexes.xml::008-unique-product-name-per-category::pashko ran successfully in 5ms
 Running Changeset: db/changelog/002-constraints-and-indexes.xml::009-index-product-name::pashko
-2025-11-27T17:26:47.228+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Index idx_products_product_name created
-2025-11-27T17:26:47.229+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-constraints-and-indexes.xml::009-index-product-name::pashko ran successfully in 6ms
+2025-11-27T17:46:05.099+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Index idx_products_product_name created
+2025-11-27T17:46:05.101+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-constraints-and-indexes.xml::009-index-product-name::pashko ran successfully in 7ms
 Running Changeset: db/changelog/002-constraints-and-indexes.xml::010-index-order-number::pashko
-2025-11-27T17:26:47.237+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : Index idx_orders_order_number created
-2025-11-27T17:26:47.238+02:00  INFO 432 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-constraints-and-indexes.xml::010-index-order-number::pashko ran successfully in 4ms
-2025-11-27T17:26:47.247+02:00  INFO 432 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
-2025-11-27T17:26:47.247+02:00  INFO 432 --- [    Test worker] liquibase.util                           : Run:                         10
-2025-11-27T17:26:47.247+02:00  INFO 432 --- [    Test worker] liquibase.util                           : Previously run:               0
-2025-11-27T17:26:47.247+02:00  INFO 432 --- [    Test worker] liquibase.util                           : Filtered out:                 0
-2025-11-27T17:26:47.247+02:00  INFO 432 --- [    Test worker] liquibase.util                           : -------------------------------
-2025-11-27T17:26:47.247+02:00  INFO 432 --- [    Test worker] liquibase.util                           : Total change sets:           10
-2025-11-27T17:26:47.248+02:00  INFO 432 --- [    Test worker] liquibase.util                           : Update summary generated
-2025-11-27T17:26:47.250+02:00  INFO 432 --- [    Test worker] liquibase.command                        : Update command completed successfully.
+2025-11-27T17:46:05.110+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : Index idx_orders_order_number created
+2025-11-27T17:46:05.112+02:00  INFO 21388 --- [    Test worker] liquibase.changelog                      : ChangeSet db/changelog/002-constraints-and-indexes.xml::010-index-order-number::pashko ran successfully in 6ms
+2025-11-27T17:46:05.120+02:00  INFO 21388 --- [    Test worker] liquibase.util                           : UPDATE SUMMARY
+2025-11-27T17:46:05.120+02:00  INFO 21388 --- [    Test worker] liquibase.util                           : Run:                         10
+2025-11-27T17:46:05.120+02:00  INFO 21388 --- [    Test worker] liquibase.util                           : Previously run:               0
+2025-11-27T17:46:05.120+02:00  INFO 21388 --- [    Test worker] liquibase.util                           : Filtered out:                 0
+2025-11-27T17:46:05.120+02:00  INFO 21388 --- [    Test worker] liquibase.util                           : -------------------------------
+2025-11-27T17:46:05.120+02:00  INFO 21388 --- [    Test worker] liquibase.util                           : Total change sets:           10
+2025-11-27T17:46:05.120+02:00  INFO 21388 --- [    Test worker] liquibase.util                           : Update summary generated
+2025-11-27T17:46:05.122+02:00  INFO 21388 --- [    Test worker] liquibase.command                        : Update command completed successfully.
 Liquibase: Update has been successful. Rows affected: 10
-2025-11-27T17:26:47.257+02:00  INFO 432 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
-2025-11-27T17:26:47.258+02:00  INFO 432 --- [    Test worker] liquibase.command                        : Command execution complete
-2025-11-27T17:26:47.393+02:00  INFO 432 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-11-27T17:26:47.459+02:00  INFO 432 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
-2025-11-27T17:26:47.491+02:00  INFO 432 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-11-27T17:26:47.760+02:00  INFO 432 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-11-27T17:26:48.822+02:00  INFO 432 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-11-27T17:26:48.860+02:00  INFO 432 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-11-27T17:26:49.394+02:00  INFO 432 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
-2025-11-27T17:26:50.353+02:00  WARN 432 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-11-27T17:26:50.999+02:00  INFO 432 --- [    Test worker] o.e.cosmocats.RepositoryIntegrationTest  : Started RepositoryIntegrationTest in 6.662 seconds (process running for 10.932)
+2025-11-27T17:46:05.127+02:00  INFO 21388 --- [    Test worker] liquibase.lockservice                    : Successfully released change log lock
+2025-11-27T17:46:05.128+02:00  INFO 21388 --- [    Test worker] liquibase.command                        : Command execution complete
+2025-11-27T17:46:05.265+02:00  INFO 21388 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-11-27T17:46:05.322+02:00  INFO 21388 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2025-11-27T17:46:05.364+02:00  INFO 21388 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-11-27T17:46:05.601+02:00  INFO 21388 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-11-27T17:46:06.804+02:00  INFO 21388 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-11-27T17:46:06.841+02:00  INFO 21388 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-11-27T17:46:07.334+02:00  INFO 21388 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-11-27T17:46:08.225+02:00  WARN 21388 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-11-27T17:46:08.910+02:00  INFO 21388 --- [    Test worker] o.e.cosmocats.RepositoryIntegrationTest  : Started RepositoryIntegrationTest in 6.711 seconds (process running for 12.15)
 [Demo] Calling CosmoCatService.getCosmoCats() ...
 Hibernate: 
     select

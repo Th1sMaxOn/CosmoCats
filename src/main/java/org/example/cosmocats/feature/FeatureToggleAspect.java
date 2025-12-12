@@ -4,6 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.example.cosmocats.feature.exception.FeatureNotAvailableException;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -33,10 +34,11 @@ public class FeatureToggleAspect {
         }
 
         String key = annotation.value();
+
         if (toggleService.isFeatureEnabled(key)) {
             return pjp.proceed();
         } else {
-            throw new FeatureNotAvailableException("Feature '" + key + "' is not available");
+            throw new FeatureNotAvailableException(key);
         }
     }
 }

@@ -19,5 +19,5 @@ jobs:
           java-version: 21
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew || true
-      - name: Run tests
-        run: ./gradlew test
+      - name: Run tests and Verify Coverage
+        run: ./gradlew test jacocoTestReport jacocoTestCoverageVerification

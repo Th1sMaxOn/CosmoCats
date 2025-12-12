@@ -1,51 +1,22 @@
 package org.example.cosmocats.service;
 
-import org.example.cosmocats.domain.Category;
 import org.example.cosmocats.domain.Product;
-import org.example.cosmocats.feature.ToggleFeature;   // ДОДАЙ цей import
-import org.example.cosmocats.repository.CategoryRepository;
-import org.example.cosmocats.repository.ProductRepository;
-import org.example.cosmocats.web.projection.PopularProductProjection;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.example.cosmocats.repository.projection.PopularProductProjection;
 import java.util.List;
 
-@Service
-@Transactional
-public class ProductService {
+public interface ProductService {
 
-    private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
+    Product create(Product product);
 
-    public ProductService(ProductRepository productRepository,
-                          CategoryRepository categoryRepository) {
-        this.productRepository = productRepository;
-        this.categoryRepository = categoryRepository;
-    }
+    Product getById(Long id);
 
-    public Product create(Product p, Long categoryId) {
-        Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new IllegalArgumentException("Category not found: " + categoryId));
-        p.setCategory(category);
-        return productRepository.save(p);
-    }
+    List<Product> findByCategory(Long categoryId);
 
-    @Transactional(readOnly = true)
-    public List<Product> findByCategory(Long categoryId) {
-        return productRepository.findByCategoryId(categoryId);
-    }
+    List<Product> getAll();
 
-    @Transactional(readOnly = true)
-    public List<PopularProductProjection> mostPopular(int limit) {
-        return productRepository.findMostPopularProducts(PageRequest.of(0, limit));
-    }
+    List<PopularProductProjection> mostPopular(int limit);
 
-    // 🔥 Новий метод для feature-toggle тестів
-    @Transactional(readOnly = true)
-    @ToggleFeature("cosmoCats")          // ключ можеш змінити, якщо в анотації/сервісі інший
-    public List<Product> getAll() {
-        return productRepository.findAll();
-    }
+    Product update(Long id, Product product);
+
+    void delete(Long id);
 }

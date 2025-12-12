@@ -1,31 +1,27 @@
 package org.example.cosmocats.feature;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.example.cosmocats.config.FeatureToggleConfig;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class FeatureToggleService {
 
-    // глобальний прапорець для нашої фічі "cosmo-cats"
-    @Value("${feature.cosmo-cats.enabled:true}")
-    private boolean cosmoCatsEnabled;
+    private final Map<String, Boolean> featureFlags;
 
-    /**
-     * Перевіряємо, чи увімкнена фіча за ключем.
-     * Зараз підтримуємо тільки "cosmo-cats".
-     */
-    public boolean isFeatureEnabled(String key) {
-        if ("cosmo-cats".equals(key)) {
-            return cosmoCatsEnabled;
-        }
-        // інші фічі вважаємо вимкненими (або тут можна повернути true — як захоче викладач)
-        return false;
+    // Інжектимо конфіг через конструктор
+    public FeatureToggleService(FeatureToggleConfig config) {
+        // Копіюємо з конфіга в ConcurrentHashMap для потокобезпеки і мутабельності в рантаймі (тести)
+        this.featureFlags = new ConcurrentHashMap<>(config.getFeatures());
     }
 
-    /**
-     * Метод для тестів — дає можливість вимикати/вмикати фічу з юніт-тестів.
-     */
-    public void setFeatureEnabled(boolean enabled) {
-        this.cosmoCatsEnabled = enabled;
+    public boolean isFeatureEnabled(String key) {
+        return featureFlags.getOrDefault(key, false);
+    }
+
+    public void setFeatureEnabled(String key, boolean enabled) {
+        featureFlags.put(key, enabled);
     }
 }

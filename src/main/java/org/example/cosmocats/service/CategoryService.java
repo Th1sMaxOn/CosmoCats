@@ -1,28 +1,17 @@
 package org.example.cosmocats.service;
 
 import org.example.cosmocats.domain.Category;
-import org.example.cosmocats.repository.CategoryRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
-@Service
-@Transactional
-public class CategoryService {
+public interface CategoryService {
 
-    private final CategoryRepository categoryRepository;
+    Category create(Category category);
 
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
+    Category getById(Long id);
 
-    public Category create(Category category) {
-        return categoryRepository.save(category);
-    }
+    List<Category> findAll();
 
-    @Transactional(readOnly = true)
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
-    }
+    Category update(Long id, Category category);
+
+    void delete(Long id);
 }

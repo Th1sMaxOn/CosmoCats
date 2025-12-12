@@ -1,7 +1,7 @@
 package org.example.cosmocats.repository;
 
-import org.example.cosmocats.domain.OrderLine;
+import org.example.cosmocats.repository.entity.OrderLineEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderLineRepository extends JpaRepository<OrderLine, Long> {
+public interface OrderLineRepository extends JpaRepository<OrderLineEntity, Long> {
 }

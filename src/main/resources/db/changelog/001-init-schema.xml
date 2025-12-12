@@ -6,14 +6,14 @@
            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
     <changeSet id="001-create-sequences" author="pashko">
-        <createSequence sequenceName="category_seq" incrementBy="1" startValue="1"/>
-        <createSequence sequenceName="product_seq" incrementBy="1" startValue="1"/>
-        <createSequence sequenceName="customer_seq" incrementBy="1" startValue="1"/>
-        <createSequence sequenceName="orders_seq" incrementBy="1" startValue="1"/>
-        <createSequence sequenceName="order_line_seq" incrementBy="1" startValue="1"/>
+        <createSequence sequenceName="category_seq" incrementBy="50" startValue="1"/>
+        <createSequence sequenceName="product_seq" incrementBy="50" startValue="1"/>
+        <createSequence sequenceName="customer_seq" incrementBy="50" startValue="1"/>
+        <createSequence sequenceName="orders_seq" incrementBy="50" startValue="1"/>
+        <createSequence sequenceName="order_line_seq" incrementBy="50" startValue="1"/>
     </changeSet>
 
-    <changeSet id="002-create-category-table" author="pashko">
+    <changeSet id="002-create-categoryEntity-table" author="pashko">
         <createTable tableName="categories">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
@@ -25,7 +25,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="003-create-product-table" author="pashko">
+    <changeSet id="003-create-productEntity-table" author="pashko">
         <createTable tableName="products">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
@@ -44,7 +44,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="004-create-customer-table" author="pashko">
+    <changeSet id="004-create-customerEntity-table" author="pashko">
         <createTable tableName="customers">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
@@ -75,7 +75,7 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="006-create-order-lines-table" author="pashko">
+    <changeSet id="006-create-orderEntity-lines-table" author="pashko">
         <createTable tableName="order_lines">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>

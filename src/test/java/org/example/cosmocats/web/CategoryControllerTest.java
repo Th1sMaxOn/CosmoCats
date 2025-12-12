@@ -31,13 +31,13 @@ class CategoryControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("POST /api/categories - Success: створює категорію і повертає 201 + Location")
+    @DisplayName("POST /api/v1/categories - Success: створює категорію і повертає 201 + Location")
     void createCategory_validPayload_returnsCreated() throws Exception {
         // 1. DTO
         CategoryDto request = new CategoryDto(null, "Space Food", "Food for cosmo cats");
 
         // 2. POST
-        mockMvc.perform(post("/api/categories")
+        mockMvc.perform(post("/api/v1/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -48,12 +48,12 @@ class CategoryControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /api/categories - Fail: пусте ім'я -> 400 Bad Request")
+    @DisplayName("POST /api/v1/categories - Fail: пусте ім'я -> 400 Bad Request")
     void createCategory_invalidName_returnsBadRequest() throws Exception {
         // Порушуємо @NotBlank
         CategoryDto request = new CategoryDto(null, "", "Desc");
 
-        mockMvc.perform(post("/api/categories")
+        mockMvc.perform(post("/api/v1/categories")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -66,7 +66,7 @@ class CategoryControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("GET /api/categories - Success: повертає список категорій")
+    @DisplayName("GET /api/v1/categories - Success: повертає список категорій")
     void getAll_returnsList() throws Exception {
         // Given
         categoryRepository.saveAll(List.of(
@@ -75,7 +75,7 @@ class CategoryControllerTest extends AbstractIntegrationTest {
         ));
 
         // When & Then
-        mockMvc.perform(get("/api/categories"))
+        mockMvc.perform(get("/api/v1/categories"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2))) // Має бути 2 елементи
                 .andExpect(jsonPath("$[*].name", containsInAnyOrder("Cat 1", "Cat 2"))); // Перевіряємо імена
@@ -86,13 +86,13 @@ class CategoryControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("GET /api/categories/{id} - Success: повертає категорію")
+    @DisplayName("GET /api/v1/categories/{id} - Success: повертає категорію")
     void getById_existingId_returnsCategory() throws Exception {
         // Given
         CategoryEntity saved = categoryRepository.save(new CategoryEntity(null, "Target Cat", "Target Desc"));
 
         // When & Then
-        mockMvc.perform(get("/api/categories/{id}", saved.getId()))
+        mockMvc.perform(get("/api/v1/categories/{id}", saved.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(saved.getId()))
                 .andExpect(jsonPath("$.name").value("Target Cat"))
@@ -100,9 +100,9 @@ class CategoryControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /api/categories/{id} - Fail: неіснуючий ID -> 404 Not Found")
+    @DisplayName("GET /api/v1/categories/{id} - Fail: неіснуючий ID -> 404 Not Found")
     void getById_nonExistingId_returnsNotFound() throws Exception {
-        mockMvc.perform(get("/api/categories/{id}", 9999L))
+        mockMvc.perform(get("/api/v1/categories/{id}", 9999L))
                 .andExpect(status().isNotFound()) // 404
                 .andExpect(jsonPath("$.title").value("Resource Not Found"))
                 .andExpect(jsonPath("$.detail").value(containsString("Category not found with identifier: 9999")));
@@ -113,14 +113,14 @@ class CategoryControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("PUT /api/categories/{id} - Success: оновлює дані")
+    @DisplayName("PUT /api/v1/categories/{id} - Success: оновлює дані")
     void update_existingId_returnsUpdatedCategory() throws Exception {
         // Given
         CategoryEntity saved = categoryRepository.save(new CategoryEntity(null, "Old Name", "Old Desc"));
         CategoryDto updateRequest = new CategoryDto(null, "New Name", "New Desc");
 
         // When & Then
-        mockMvc.perform(put("/api/categories/{id}", saved.getId())
+        mockMvc.perform(put("/api/v1/categories/{id}", saved.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequest)))
                 .andExpect(status().isOk())
@@ -130,25 +130,25 @@ class CategoryControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("PUT /api/categories/{id} - Fail: неіснуючий ID -> 404 Not Found")
+    @DisplayName("PUT /api/v1/categories/{id} - Fail: неіснуючий ID -> 404 Not Found")
     void update_nonExistingId_returnsNotFound() throws Exception {
         CategoryDto updateRequest = new CategoryDto(null, "Name", "Desc");
 
-        mockMvc.perform(put("/api/categories/{id}", 9999L)
+        mockMvc.perform(put("/api/v1/categories/{id}", 9999L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequest)))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("PUT /api/categories/{id} - Fail: невалідний DTO -> 400 Bad Request")
+    @DisplayName("PUT /api/v1/categories/{id} - Fail: невалідний DTO -> 400 Bad Request")
     void update_invalidData_returnsBadRequest() throws Exception {
         // Given
         CategoryEntity saved = categoryRepository.save(new CategoryEntity(null, "Valid", "Valid"));
         CategoryDto invalidRequest = new CategoryDto(null, "", "Valid"); // Порожнє ім'я
 
         // When & Then
-        mockMvc.perform(put("/api/categories/{id}", saved.getId())
+        mockMvc.perform(put("/api/v1/categories/{id}", saved.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().isBadRequest());
@@ -159,13 +159,13 @@ class CategoryControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("DELETE /api/categories/{id} - Success: видаляє і повертає 204")
+    @DisplayName("DELETE /api/v1/categories/{id} - Success: видаляє і повертає 204")
     void delete_existingId_returnsNoContent() throws Exception {
         // Given
         CategoryEntity saved = categoryRepository.save(new CategoryEntity(null, "To Delete", "Desc"));
 
         // When
-        mockMvc.perform(delete("/api/categories/{id}", saved.getId()))
+        mockMvc.perform(delete("/api/v1/categories/{id}", saved.getId()))
                 .andExpect(status().isNoContent()); // 204
     }
 }

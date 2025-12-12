@@ -45,7 +45,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("POST /api/products - Success: створює продукт")
+    @DisplayName("POST /api/v1/products - Success: створює продукт")
     void createProduct_validPayload_returnsCreated() throws Exception {
         // Given
         ProductDto request = new ProductDto(
@@ -57,7 +57,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
         );
 
         // When & Then
-        mockMvc.perform(post("/api/products")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -69,14 +69,14 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /api/products - Fail: неіснуюча категорія -> 404 Not Found")
+    @DisplayName("POST /api/v1/products - Fail: неіснуюча категорія -> 404 Not Found")
     void createProduct_nonExistingCategory_returnsNotFound() throws Exception {
         // Given: ID категорії, якого немає в базі
         long nonExistentCatId = 9999L;
         ProductDto request = new ProductDto(null, "Bad Cat", "Desc", BigDecimal.TEN, nonExistentCatId);
 
         // When & Then
-        mockMvc.perform(post("/api/products")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound())
@@ -84,13 +84,13 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /api/products - Fail: невалідна ціна -> 400 Bad Request")
+    @DisplayName("POST /api/v1/products - Fail: невалідна ціна -> 400 Bad Request")
     void createProduct_invalidPrice_returnsBadRequest() throws Exception {
         // Given: ціна 0 або від'ємна (порушує @Positive)
         ProductDto request = new ProductDto(null, "Cheap", "Desc", BigDecimal.ZERO, savedCategory.getId());
 
         // When & Then
-        mockMvc.perform(post("/api/products")
+        mockMvc.perform(post("/api/v1/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -102,7 +102,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("GET /api/products - Success: повертає список")
+    @DisplayName("GET /api/v1/products - Success: повертає список")
     void getAll_returnsList() throws Exception {
         // Given
         productRepository.saveAll(List.of(
@@ -111,7 +111,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
         ));
 
         // When & Then
-        mockMvc.perform(get("/api/products"))
+        mockMvc.perform(get("/api/v1/products"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[*].productName", containsInAnyOrder("P1", "P2")));
@@ -122,7 +122,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("GET /api/products/{id} - Success: повертає продукт")
+    @DisplayName("GET /api/v1/products/{id} - Success: повертає продукт")
     void getById_existingId_returnsProduct() throws Exception {
         // Given
         ProductEntity saved = productRepository.save(
@@ -130,7 +130,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
         );
 
         // When & Then
-        mockMvc.perform(get("/api/products/{id}", saved.getId()))
+        mockMvc.perform(get("/api/v1/products/{id}", saved.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(saved.getId()))
                 .andExpect(jsonPath("$.productName").value("Target Product"))
@@ -138,9 +138,9 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /api/products/{id} - Fail: неіснуючий ID -> 404")
+    @DisplayName("GET /api/v1/products/{id} - Fail: неіснуючий ID -> 404")
     void getById_nonExistingId_returnsNotFound() throws Exception {
-        mockMvc.perform(get("/api/products/{id}", 9999L))
+        mockMvc.perform(get("/api/v1/products/{id}", 9999L))
                 .andExpect(status().isNotFound());
     }
 
@@ -149,7 +149,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("GET /api/products/by-category/{id} - Success: фільтрує по категорії")
+    @DisplayName("GET /api/v1/products/by-category/{id} - Success: фільтрує по категорії")
     void byCategory_existingCategory_returnsList() throws Exception {
         // Given
         // Продукт в правильній категорії
@@ -160,17 +160,17 @@ class ProductControllerTest extends AbstractIntegrationTest {
         productRepository.save(new ProductEntity(null, "Other Prod", "Desc", BigDecimal.TEN, otherCat));
 
         // When & Then: просимо тільки для savedCategory
-        mockMvc.perform(get("/api/products/by-category/{id}", savedCategory.getId()))
+        mockMvc.perform(get("/api/v1/products/by-category/{id}", savedCategory.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1))) // Тільки один
                 .andExpect(jsonPath("$[0].productName").value("In Cat"));
     }
 
     @Test
-    @DisplayName("GET /api/products/by-category/{id} - Fail: категорія не існує -> 404")
+    @DisplayName("GET /api/v1/products/by-category/{id} - Fail: категорія не існує -> 404")
     void byCategory_nonExistingCategory_returnsNotFound() throws Exception {
         // Сервіс перевіряє categoryRepository.existsById перед пошуком
-        mockMvc.perform(get("/api/products/by-category/{id}", 8888L))
+        mockMvc.perform(get("/api/v1/products/by-category/{id}", 8888L))
                 .andExpect(status().isNotFound());
     }
 
@@ -178,11 +178,11 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // GET POPULAR (GET /popular)
     // ==========================================
     @Test
-    @DisplayName("GET /api/products/popular - Success: повертає список (навіть якщо пустий)")
+    @DisplayName("GET /api/v1/products/popular - Success: повертає список (навіть якщо пустий)")
     void popular_returnsList() throws Exception {
         // Тут ми не створюємо Order/OrderLines, бо це складно для Unit/Integration тесту контролера.
         // Перевіряємо просто контракт, що метод не падає і вертає JSON array.
-        mockMvc.perform(get("/api/products/popular"))
+        mockMvc.perform(get("/api/v1/products/popular"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
     }
@@ -192,7 +192,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("PUT /api/products/{id} - Success: оновлює продукт")
+    @DisplayName("PUT /api/v1/products/{id} - Success: оновлює продукт")
     void update_existingId_returnsUpdated() throws Exception {
         // Given
         ProductEntity saved = productRepository.save(
@@ -201,7 +201,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
         ProductDto updateRequest = new ProductDto(null, "New Name", "New", BigDecimal.valueOf(99), savedCategory.getId());
 
         // When & Then
-        mockMvc.perform(put("/api/products/{id}", saved.getId())
+        mockMvc.perform(put("/api/v1/products/{id}", saved.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequest)))
                 .andExpect(status().isOk())
@@ -210,11 +210,11 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("PUT /api/products/{id} - Fail: неіснуючий ID -> 404")
+    @DisplayName("PUT /api/v1/products/{id} - Fail: неіснуючий ID -> 404")
     void update_nonExistingId_returnsNotFound() throws Exception {
         ProductDto updateRequest = new ProductDto(null, "Name", "Desc", BigDecimal.TEN, savedCategory.getId());
 
-        mockMvc.perform(put("/api/products/{id}", 9999L)
+        mockMvc.perform(put("/api/v1/products/{id}", 9999L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequest)))
                 .andExpect(status().isNotFound());
@@ -225,7 +225,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("DELETE /api/products/{id} - Success: видаляє існуючий -> 204")
+    @DisplayName("DELETE /api/v1/products/{id} - Success: видаляє існуючий -> 204")
     void delete_existingId_returnsNoContent() throws Exception {
         // Given
         ProductEntity saved = productRepository.save(
@@ -233,18 +233,18 @@ class ProductControllerTest extends AbstractIntegrationTest {
         );
 
         // When
-        mockMvc.perform(delete("/api/products/{id}", saved.getId()))
+        mockMvc.perform(delete("/api/v1/products/{id}", saved.getId()))
                 .andExpect(status().isNoContent()); // 204
 
         // Then: в базі немає
-        mockMvc.perform(get("/api/products/{id}", saved.getId()))
+        mockMvc.perform(get("/api/v1/products/{id}", saved.getId()))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("DELETE /api/products/{id} - Idempotent: видаляє неіснуючий -> 204 (НЕ 404!)")
+    @DisplayName("DELETE /api/v1/products/{id} - Idempotent: видаляє неіснуючий -> 204 (НЕ 404!)")
     void delete_nonExistingId_returnsNoContent() throws Exception {
-        mockMvc.perform(delete("/api/products/{id}", 99999L))
+        mockMvc.perform(delete("/api/v1/products/{id}", 99999L))
                 .andExpect(status().isNoContent());
     }
 }

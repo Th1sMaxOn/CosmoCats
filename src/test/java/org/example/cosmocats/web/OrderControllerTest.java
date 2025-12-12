@@ -55,7 +55,7 @@ class OrderControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("POST /api/orders - Success: створює замовлення, кастомера і рахує суму")
+    @DisplayName("POST /api/v1/orders - Success: створює замовлення, кастомера і рахує суму")
     void create_validRequest_returnsCreated() throws Exception {
         // Given
         OrderLineDto lineDto = new OrderLineDto(savedProduct.getId(), 2, null); // 2 шт по 100.00
@@ -67,7 +67,7 @@ class OrderControllerTest extends AbstractIntegrationTest {
         );
 
         // When & Then
-        mockMvc.perform(post("/api/orders")
+        mockMvc.perform(post("/api/v1/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -80,7 +80,7 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /api/orders - Fail: неіснуючий продукт -> 404 Not Found")
+    @DisplayName("POST /api/v1/orders - Fail: неіснуючий продукт -> 404 Not Found")
     void create_nonExistingProduct_returnsNotFound() throws Exception {
         // Given
         long fakeId = 9999L;
@@ -90,7 +90,7 @@ class OrderControllerTest extends AbstractIntegrationTest {
         );
 
         // When & Then
-        mockMvc.perform(post("/api/orders")
+        mockMvc.perform(post("/api/v1/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound())
@@ -98,14 +98,14 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("POST /api/orders - Fail: невалідний запит (пустий email) -> 400 Bad Request")
+    @DisplayName("POST /api/v1/orders - Fail: невалідний запит (пустий email) -> 400 Bad Request")
     void create_invalidEmail_returnsBadRequest() throws Exception {
         CreateOrderRequest request = new CreateOrderRequest(
                 "", "User", "NEW", // Пустий email
                 List.of(new OrderLineDto(savedProduct.getId(), 1, null))
         );
 
-        mockMvc.perform(post("/api/orders")
+        mockMvc.perform(post("/api/v1/orders")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -117,23 +117,23 @@ class OrderControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("GET /api/orders - Success: повертає всі замовлення")
+    @DisplayName("GET /api/v1/orders - Success: повертає всі замовлення")
     void getAll_returnsList() throws Exception {
         createTestOrder("u1@test.com", "ORD-001");
         createTestOrder("u2@test.com", "ORD-002");
 
-        mockMvc.perform(get("/api/orders"))
+        mockMvc.perform(get("/api/v1/orders"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
 
     @Test
-    @DisplayName("GET /api/orders?email=... - Success: фільтрує по email")
+    @DisplayName("GET /api/v1/orders?email=... - Success: фільтрує по email")
     void getAll_filterByEmail_returnsFiltered() throws Exception {
         createTestOrder("target@test.com", "ORD-TARGET");
         createTestOrder("other@test.com", "ORD-OTHER");
 
-        mockMvc.perform(get("/api/orders")
+        mockMvc.perform(get("/api/v1/orders")
                         .param("email", "target@test.com"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -145,30 +145,30 @@ class OrderControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("GET /api/orders/{orderNumber} - Success: пошук по Natural ID")
+    @DisplayName("GET /api/v1/orders/{orderNumber} - Success: пошук по Natural ID")
     void getByOrderNumber_existing_returnsOrder() throws Exception {
         OrderEntity saved = createTestOrder("user@test.com", "ORD-12345");
 
-        mockMvc.perform(get("/api/orders/{orderNumber}", "ORD-12345"))
+        mockMvc.perform(get("/api/v1/orders/{orderNumber}", "ORD-12345"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(saved.getId()))
                 .andExpect(jsonPath("$.orderNumber").value("ORD-12345"));
     }
 
     @Test
-    @DisplayName("GET /api/orders/id/{id} - Success: пошук по Primary Key")
+    @DisplayName("GET /api/v1/orders/id/{id} - Success: пошук по Primary Key")
     void getById_existing_returnsOrder() throws Exception {
         OrderEntity saved = createTestOrder("user@test.com", "ORD-PK-TEST");
 
-        mockMvc.perform(get("/api/orders/id/{id}", saved.getId()))
+        mockMvc.perform(get("/api/v1/orders/id/{id}", saved.getId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.orderNumber").value("ORD-PK-TEST"));
     }
 
     @Test
-    @DisplayName("GET /api/orders/{orderNumber} - Fail: неіснуючий номер -> 404")
+    @DisplayName("GET /api/v1/orders/{orderNumber} - Fail: неіснуючий номер -> 404")
     void getByOrderNumber_missing_returnsNotFound() throws Exception {
-        mockMvc.perform(get("/api/orders/{orderNumber}", "MISSING-ORD"))
+        mockMvc.perform(get("/api/v1/orders/{orderNumber}", "MISSING-ORD"))
                 .andExpect(status().isNotFound());
     }
 
@@ -177,11 +177,11 @@ class OrderControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("PATCH /api/orders/{orderNumber}/status - Success: змінює статус")
+    @DisplayName("PATCH /api/v1/orders/{orderNumber}/status - Success: змінює статус")
     void updateStatus_existing_returnsUpdated() throws Exception {
         createTestOrder("user@test.com", "ORD-STATUS");
 
-        mockMvc.perform(patch("/api/orders/{orderNumber}/status", "ORD-STATUS")
+        mockMvc.perform(patch("/api/v1/orders/{orderNumber}/status", "ORD-STATUS")
                         .param("newStatus", "SHIPPED"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.orderNumber").value("ORD-STATUS"))
@@ -189,9 +189,9 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("PATCH /api/orders/{orderNumber}/status - Fail: неіснуючий номер -> 404")
+    @DisplayName("PATCH /api/v1/orders/{orderNumber}/status - Fail: неіснуючий номер -> 404")
     void updateStatus_missing_returnsNotFound() throws Exception {
-        mockMvc.perform(patch("/api/orders/{orderNumber}/status", "MISSING")
+        mockMvc.perform(patch("/api/v1/orders/{orderNumber}/status", "MISSING")
                         .param("newStatus", "SHIPPED"))
                 .andExpect(status().isNotFound());
     }
@@ -201,21 +201,21 @@ class OrderControllerTest extends AbstractIntegrationTest {
     // ==========================================
 
     @Test
-    @DisplayName("DELETE /api/orders/{id} - Success: видаляє і каскадно чистить лінії -> 204")
+    @DisplayName("DELETE /api/v1/orders/{id} - Success: видаляє і каскадно чистить лінії -> 204")
     void delete_existing_returnsNoContent() throws Exception {
         OrderEntity saved = createTestOrder("del@test.com", "ORD-DEL");
 
-        mockMvc.perform(delete("/api/orders/{id}", saved.getId()))
+        mockMvc.perform(delete("/api/v1/orders/{id}", saved.getId()))
                 .andExpect(status().isNoContent());
 
-        mockMvc.perform(get("/api/orders/id/{id}", saved.getId()))
+        mockMvc.perform(get("/api/v1/orders/id/{id}", saved.getId()))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @DisplayName("DELETE /api/orders/{id} - Idempotent: видаляє неіснуючий -> 204")
+    @DisplayName("DELETE /api/v1/orders/{id} - Idempotent: видаляє неіснуючий -> 204")
     void delete_missing_returnsNoContent() throws Exception {
-        mockMvc.perform(delete("/api/orders/{id}", 999999L))
+        mockMvc.perform(delete("/api/v1/orders/{id}", 999999L))
                 .andExpect(status().isNoContent());
     }
 

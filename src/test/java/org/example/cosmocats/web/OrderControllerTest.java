@@ -13,6 +13,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -51,10 +52,33 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // CREATE (POST)
+    // CREATE (POST) - @PreAuthorize("hasAnyRole('USER', 'BOT')")
     // ==========================================
 
     @Test
+    @DisplayName("POST /api/v1/orders - Fail: 401 Unauthorized (Без аутентифікації)")
+    void createOrder_noAuth_returnsUnauthorized() throws Exception {
+        CreateOrderRequest request = new CreateOrderRequest("newuser@example.com", "New User", "NEW", Collections.emptyList());
+        mockMvc.perform(post("/api/v1/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    @DisplayName("POST /api/v1/orders - Fail: 403 Forbidden (Роль ADMIN)")
+    void createOrder_adminRole_returnsForbidden() throws Exception {
+        OrderLineDto lineDto = new OrderLineDto(savedProduct.getId(), 2, null);
+        CreateOrderRequest request = new CreateOrderRequest("admin@example.com", "Admin User", "NEW", List.of(lineDto));
+        mockMvc.perform(post("/api/v1/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("POST /api/v1/orders - Success: створює замовлення, кастомера і рахує суму")
     void create_validRequest_returnsCreated() throws Exception {
         // Given
@@ -80,6 +104,7 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("POST /api/v1/orders - Fail: неіснуючий продукт -> 404 Not Found")
     void create_nonExistingProduct_returnsNotFound() throws Exception {
         // Given
@@ -98,6 +123,7 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("POST /api/v1/orders - Fail: невалідний запит (пустий email) -> 400 Bad Request")
     void create_invalidEmail_returnsBadRequest() throws Exception {
         CreateOrderRequest request = new CreateOrderRequest(
@@ -113,11 +139,27 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // GET ALL & FILTER (GET)
+    // GET ALL & FILTER (GET) - findAll (ADMIN/BOT); findByEmail (Authenticated)
     // ==========================================
 
     @Test
-    @DisplayName("GET /api/v1/orders - Success: повертає всі замовлення")
+    @DisplayName("GET /api/v1/orders - Fail: 401 Unauthorized (Без аутентифікації)")
+    void getAll_noAuth_returnsUnauthorized() throws Exception {
+        mockMvc.perform(get("/api/v1/orders"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName("GET /api/v1/orders - Fail: 403 Forbidden (Роль USER намагається викликати findAll)")
+    void getAll_userRole_returnsForbidden() throws Exception {
+        mockMvc.perform(get("/api/v1/orders"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    @DisplayName("GET /api/v1/orders - Success: повертає всі замовлення (Роль ADMIN)")
     void getAll_returnsList() throws Exception {
         createTestOrder("u1@test.com", "ORD-001");
         createTestOrder("u2@test.com", "ORD-002");
@@ -128,6 +170,7 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("GET /api/v1/orders?email=... - Success: фільтрує по email")
     void getAll_filterByEmail_returnsFiltered() throws Exception {
         createTestOrder("target@test.com", "ORD-TARGET");
@@ -141,10 +184,19 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // GET BY ID / NUMBER (GET)
+    // GET BY ID / NUMBER (GET) - Authenticated only
     // ==========================================
 
     @Test
+    @DisplayName("GET /api/v1/orders/{orderNumber} - Fail: 401 Unauthorized (Без аутентифікації)")
+    void getByOrderNumber_noAuth_returnsUnauthorized() throws Exception {
+        createTestOrder("user@test.com", "ORD-12345");
+        mockMvc.perform(get("/api/v1/orders/{orderNumber}", "ORD-12345"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("GET /api/v1/orders/{orderNumber} - Success: пошук по Natural ID")
     void getByOrderNumber_existing_returnsOrder() throws Exception {
         OrderEntity saved = createTestOrder("user@test.com", "ORD-12345");
@@ -156,7 +208,8 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @DisplayName("GET /api/v1/orders/id/{id} - Success: пошук по Primary Key")
+    @WithMockUser(roles = "ADMIN")
+    @DisplayName("GET /api/v1/orders/id/{id} - Success: 200 OK (Роль ADMIN)")
     void getById_existing_returnsOrder() throws Exception {
         OrderEntity saved = createTestOrder("user@test.com", "ORD-PK-TEST");
 
@@ -166,6 +219,7 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("GET /api/v1/orders/{orderNumber} - Fail: неіснуючий номер -> 404")
     void getByOrderNumber_missing_returnsNotFound() throws Exception {
         mockMvc.perform(get("/api/v1/orders/{orderNumber}", "MISSING-ORD"))
@@ -173,11 +227,31 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // UPDATE STATUS (PATCH)
+    // UPDATE STATUS (PATCH) - @PreAuthorize("hasAnyRole('ADMIN', 'BOT')")
     // ==========================================
 
     @Test
-    @DisplayName("PATCH /api/v1/orders/{orderNumber}/status - Success: змінює статус")
+    @DisplayName("PATCH /api/v1/orders/{orderNumber}/status - Fail: 401 Unauthorized (Без аутентифікації)")
+    void updateStatus_noAuth_returnsUnauthorized() throws Exception {
+        createTestOrder("user@test.com", "ORD-STATUS-NOAUTH");
+        mockMvc.perform(patch("/api/v1/orders/{orderNumber}/status", "ORD-STATUS-NOAUTH")
+                        .param("newStatus", "SHIPPED"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName("PATCH /api/v1/orders/{orderNumber}/status - Fail: 403 Forbidden (Роль USER)")
+    void updateStatus_userRole_returnsForbidden() throws Exception {
+        createTestOrder("user@test.com", "ORD-STATUS-USER");
+        mockMvc.perform(patch("/api/v1/orders/{orderNumber}/status", "ORD-STATUS-USER")
+                        .param("newStatus", "SHIPPED"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    @DisplayName("PATCH /api/v1/orders/{orderNumber}/status - Success: змінює статус (Роль ADMIN)")
     void updateStatus_existing_returnsUpdated() throws Exception {
         createTestOrder("user@test.com", "ORD-STATUS");
 
@@ -189,6 +263,7 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("PATCH /api/v1/orders/{orderNumber}/status - Fail: неіснуючий номер -> 404")
     void updateStatus_missing_returnsNotFound() throws Exception {
         mockMvc.perform(patch("/api/v1/orders/{orderNumber}/status", "MISSING")
@@ -197,10 +272,29 @@ class OrderControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // DELETE (DELETE)
+    // DELETE (DELETE) - @PreAuthorize("hasRole('ADMIN')")
     // ==========================================
 
     @Test
+    @DisplayName("DELETE /api/v1/orders/{id} - Fail: 401 Unauthorized (Без аутентифікації)")
+    void delete_noAuth_returnsUnauthorized() throws Exception {
+        OrderEntity saved = createTestOrder("del-noauth@test.com", "ORD-DEL-NOAUTH");
+        mockMvc.perform(delete("/api/v1/orders/{id}", saved.getId()))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName("DELETE /api/v1/orders/{id} - Fail: 403 Forbidden (Роль USER)")
+    void delete_userRole_returnsForbidden() throws Exception {
+        OrderEntity saved = createTestOrder("del-user@test.com", "ORD-DEL-USER");
+        mockMvc.perform(delete("/api/v1/orders/{id}", saved.getId()))
+                .andExpect(status().isForbidden());
+    }
+
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("DELETE /api/v1/orders/{id} - Success: видаляє і каскадно чистить лінії -> 204")
     void delete_existing_returnsNoContent() throws Exception {
         OrderEntity saved = createTestOrder("del@test.com", "ORD-DEL");

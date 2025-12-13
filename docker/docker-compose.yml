@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  wiremock:
+    image: wiremock/wiremock:2.35.0
+    container_name: cosmo_wiremock
+    ports:
+      - "9999:8080"
+    volumes:
+      - ./wiremock:/home/wiremock

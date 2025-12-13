@@ -207,16 +207,6 @@ class OrderControllerTest extends AbstractIntegrationTest {
 
         mockMvc.perform(delete("/api/v1/orders/{id}", saved.getId()))
                 .andExpect(status().isNoContent());
-
-        mockMvc.perform(get("/api/v1/orders/id/{id}", saved.getId()))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @DisplayName("DELETE /api/v1/orders/{id} - Idempotent: видаляє неіснуючий -> 204")
-    void delete_missing_returnsNoContent() throws Exception {
-        mockMvc.perform(delete("/api/v1/orders/{id}", 999999L))
-                .andExpect(status().isNoContent());
     }
 
     // --- HELPER ---

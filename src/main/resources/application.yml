@@ -13,6 +13,11 @@ spring:
     show-sql: true
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9999/.well-known/jwks.json
 
 server:
   port: 8080
@@ -21,3 +26,5 @@ app:
   features:
     cosmoCats: false
     kittyProducts: false
+  security:
+    bot-key: "cosmos-cat-bot-secret-x99" # Ключ для розробки та тестувань, в реальному продукті приховати його

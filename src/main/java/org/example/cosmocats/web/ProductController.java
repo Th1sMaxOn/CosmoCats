@@ -8,6 +8,7 @@ import org.example.cosmocats.service.ProductService;
 import org.example.cosmocats.web.dto.ProductDto;
 import org.example.cosmocats.repository.projection.PopularProductProjection;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,6 +24,7 @@ public class ProductController {
 
     // Створити
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'BOT')")
     public ResponseEntity<ProductDto> create(@RequestBody @Valid ProductDto dto) {
         Product domain = productMapper.toDomain(dto);
         Product saved = productService.create(domain);
@@ -62,6 +64,7 @@ public class ProductController {
 
     // Оновити
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductDto> update(@PathVariable Long id, @RequestBody @Valid ProductDto dto) {
         Product domain = productMapper.toDomain(dto);
         Product updated = productService.update(id, domain);
@@ -70,6 +73,7 @@ public class ProductController {
 
     // Видалити
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         productService.delete(id);
         return ResponseEntity.noContent().build();

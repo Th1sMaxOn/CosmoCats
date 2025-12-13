@@ -7,6 +7,7 @@ import org.example.cosmocats.mapper.CategoryMapper;
 import org.example.cosmocats.service.CategoryService;
 import org.example.cosmocats.web.dto.CategoryDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -22,6 +23,7 @@ public class CategoryController {
 
     // Створити
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'BOT')")
     public ResponseEntity<CategoryDto> create(@RequestBody @Valid CategoryDto dto) {
         Category domain = categoryMapper.toDomain(dto);
         Category saved = categoryService.create(domain);
@@ -47,6 +49,7 @@ public class CategoryController {
 
     // Оновити
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoryDto> update(@PathVariable Long id, @RequestBody @Valid CategoryDto dto) {
         Category domain = categoryMapper.toDomain(dto);
         Category updated = categoryService.update(id, domain);
@@ -55,6 +58,7 @@ public class CategoryController {
 
     // Видалити
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         categoryService.delete(id);
         return ResponseEntity.noContent().build();

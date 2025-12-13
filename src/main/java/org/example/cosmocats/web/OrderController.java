@@ -8,6 +8,7 @@ import org.example.cosmocats.service.OrderService;
 import org.example.cosmocats.web.dto.CreateOrderRequest;
 import org.example.cosmocats.web.dto.OrderResponseDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,6 +24,7 @@ public class OrderController {
 
     // 1. Створити замовлення
     @PostMapping
+    @PreAuthorize("hasAnyRole('USER', 'BOT')")
     public ResponseEntity<OrderResponseDto> create(@RequestBody @Valid CreateOrderRequest request) {
         Order domain = orderMapper.toDomain(request);
         Order saved = orderService.createOrder(domain);
@@ -67,6 +69,7 @@ public class OrderController {
 
     // 5. Оновити статус (PATCH /api/orders/{orderNumber}/status?newStatus=SHIPPED)
     @PatchMapping("/{orderNumber}/status")
+    @PreAuthorize("hasAnyRole('ADMIN', 'BOT')")
     public ResponseEntity<OrderResponseDto> updateStatus(
             @PathVariable String orderNumber,
             @RequestParam String newStatus) {
@@ -77,6 +80,7 @@ public class OrderController {
 
     // 6. Видалити замовлення
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();

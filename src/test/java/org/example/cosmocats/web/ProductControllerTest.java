@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -41,10 +42,32 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // CREATE (POST)
+    // CREATE (POST) - @PreAuthorize("hasAnyRole('ADMIN', 'BOT')")
     // ==========================================
 
     @Test
+    @DisplayName("SECURITY POST /products - Fail: 401 Unauthorized")
+    void security_createProduct_noAuth_returnsUnauthorized() throws Exception {
+        ProductDto request = new ProductDto(null, "Test", "Desc", BigDecimal.ONE, savedCategory.getId());
+        mockMvc.perform(post("/api/v1/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName("SECURITY POST /products - Fail: 403 Forbidden (Роль USER)")
+    void security_createProduct_userRole_returnsForbidden() throws Exception {
+        ProductDto request = new ProductDto(null, "Test", "Desc", BigDecimal.ONE, savedCategory.getId());
+        mockMvc.perform(post("/api/v1/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("POST /api/v1/products - Success: створює продукт")
     void createProduct_validPayload_returnsCreated() throws Exception {
         // Given
@@ -69,6 +92,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("POST /api/v1/products - Fail: неіснуюча категорія -> 404 Not Found")
     void createProduct_nonExistingCategory_returnsNotFound() throws Exception {
         // Given: ID категорії, якого немає в базі
@@ -84,6 +108,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("POST /api/v1/products - Fail: невалідна ціна -> 400 Bad Request")
     void createProduct_invalidPrice_returnsBadRequest() throws Exception {
         // Given: ціна 0 або від'ємна (порушує @Positive)
@@ -98,10 +123,18 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // GET ALL (GET)
+    // GET ALL (GET) - Authenticated only
     // ==========================================
 
     @Test
+    @DisplayName("SECURITY GET /products - Fail: 401 Unauthorized")
+    void security_getAll_noAuth_returnsUnauthorized() throws Exception {
+        mockMvc.perform(get("/api/v1/products"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("GET /api/v1/products - Success: повертає список")
     void getAll_returnsList() throws Exception {
         // Given
@@ -118,10 +151,11 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // GET BY ID (GET /{id})
+    // GET BY ID (GET /{id}) - Authenticated only
     // ==========================================
 
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("GET /api/v1/products/{id} - Success: повертає продукт")
     void getById_existingId_returnsProduct() throws Exception {
         // Given
@@ -138,6 +172,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("GET /api/v1/products/{id} - Fail: неіснуючий ID -> 404")
     void getById_nonExistingId_returnsNotFound() throws Exception {
         mockMvc.perform(get("/api/v1/products/{id}", 9999L))
@@ -145,10 +180,11 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // GET BY CATEGORY (GET /by-category/{id})
+    // GET BY CATEGORY (GET /by-category/{id}) - Authenticated only
     // ==========================================
 
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("GET /api/v1/products/by-category/{id} - Success: фільтрує по категорії")
     void byCategory_existingCategory_returnsList() throws Exception {
         // Given
@@ -167,6 +203,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("GET /api/v1/products/by-category/{id} - Fail: категорія не існує -> 404")
     void byCategory_nonExistingCategory_returnsNotFound() throws Exception {
         // Сервіс перевіряє categoryRepository.existsById перед пошуком
@@ -175,9 +212,10 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // GET POPULAR (GET /popular)
+    // GET POPULAR (GET /popular) - Authenticated only
     // ==========================================
     @Test
+    @WithMockUser(roles = "USER")
     @DisplayName("GET /api/v1/products/popular - Success: повертає список (навіть якщо пустий)")
     void popular_returnsList() throws Exception {
         // Тут ми не створюємо Order/OrderLines, бо це складно для Unit/Integration тесту контролера.
@@ -188,10 +226,23 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // UPDATE (PUT /{id})
+    // UPDATE (PUT /{id}) - @PreAuthorize("hasRole('ADMIN')")
     // ==========================================
 
     @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName("SECURITY PUT /products/{id} - Fail: 403 Forbidden (Роль USER)")
+    void security_updateProduct_userRole_returnsForbidden() throws Exception {
+        ProductEntity saved = productRepository.save(new ProductEntity(null, "Old", "O", BigDecimal.TEN, savedCategory));
+        ProductDto updateRequest = new ProductDto(null, "New", "N", BigDecimal.ONE, savedCategory.getId());
+        mockMvc.perform(put("/api/v1/products/{id}", saved.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateRequest)))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("PUT /api/v1/products/{id} - Success: оновлює продукт")
     void update_existingId_returnsUpdated() throws Exception {
         // Given
@@ -210,6 +261,7 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("PUT /api/v1/products/{id} - Fail: неіснуючий ID -> 404")
     void update_nonExistingId_returnsNotFound() throws Exception {
         ProductDto updateRequest = new ProductDto(null, "Name", "Desc", BigDecimal.TEN, savedCategory.getId());
@@ -221,10 +273,20 @@ class ProductControllerTest extends AbstractIntegrationTest {
     }
 
     // ==========================================
-    // DELETE (DELETE /{id})
+    // DELETE (DELETE /{id}) - @PreAuthorize("hasRole('ADMIN')")
     // ==========================================
 
     @Test
+    @WithMockUser(roles = "USER")
+    @DisplayName("SECURITY DELETE /products/{id} - Fail: 403 Forbidden (Роль USER)")
+    void security_deleteProduct_userRole_returnsForbidden() throws Exception {
+        ProductEntity saved = productRepository.save(new ProductEntity(null, "To Delete", "Desc", BigDecimal.TEN, savedCategory));
+        mockMvc.perform(delete("/api/v1/products/{id}", saved.getId()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("DELETE /api/v1/products/{id} - Success: видаляє існуючий -> 204")
     void delete_existingId_returnsNoContent() throws Exception {
         // Given

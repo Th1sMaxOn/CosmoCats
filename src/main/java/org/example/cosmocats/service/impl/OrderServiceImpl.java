@@ -14,6 +14,7 @@ import org.example.cosmocats.service.OrderService;
 import org.example.cosmocats.service.exception.OrderNotFoundException;
 import org.example.cosmocats.service.exception.ProductNotFoundException;
 import org.example.cosmocats.service.exception.ResourceNotFoundException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("hasAnyRole('ADMIN', 'BOT')")
     public List<Order> findAll() {
         try {
             return orderRepository.findAll().stream()

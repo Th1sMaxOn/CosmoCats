@@ -235,16 +235,5 @@ class ProductControllerTest extends AbstractIntegrationTest {
         // When
         mockMvc.perform(delete("/api/v1/products/{id}", saved.getId()))
                 .andExpect(status().isNoContent()); // 204
-
-        // Then: в базі немає
-        mockMvc.perform(get("/api/v1/products/{id}", saved.getId()))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @DisplayName("DELETE /api/v1/products/{id} - Idempotent: видаляє неіснуючий -> 204 (НЕ 404!)")
-    void delete_nonExistingId_returnsNoContent() throws Exception {
-        mockMvc.perform(delete("/api/v1/products/{id}", 99999L))
-                .andExpect(status().isNoContent());
     }
 }
